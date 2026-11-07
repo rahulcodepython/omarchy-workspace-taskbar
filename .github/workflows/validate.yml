@@ -1,0 +1,38 @@
+name: Validate Omarchy Plugin
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq imagemagick
+
+      - name: Run Plugin Test Suite
+        run: |
+          chmod +x tests/test_plugin.sh
+          # Mock omarchy plugin validate CLI if omarchy is not installed in generic runner
+          if ! command -v omarchy &>/dev/null; then
+            sudo mkdir -p /usr/local/bin
+            sudo tee /usr/local/bin/omarchy > /dev/null <<'EOF'
+#!/bin/bash
+if [[ "$1" == "plugin" && "$2" == "validate" ]]; then
+  DIR="$3"
+  [ -f "$DIR/manifest.json" ] && jq -e '.schemaVersion == 1' "$DIR/manifest.json" >/dev/null
+  exit $?
+fi
+exit 0
+EOF
+            sudo chmod +x /usr/local/bin/omarchy
+          fi
+          ./tests/test_plugin.sh
