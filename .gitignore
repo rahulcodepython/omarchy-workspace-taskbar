@@ -1,0 +1,7 @@
+# Omarchy & editor artifacts
+*.swp
+*.swo
+*~
+.DS_Store
+*.log
+.cache/

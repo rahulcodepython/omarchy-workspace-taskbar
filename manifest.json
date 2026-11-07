@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "rahulcodepython.workspace-taskbar",
+  "name": "Workspace Taskbar",
+  "version": "1.0.0",
+  "author": "Rahul Das",
+  "license": "MIT",
+  "homepage": "https://github.com/rahulcodepython/omarchy-workspace-taskbar",
+  "description": "Interactive horizontal taskbar displaying open window pills for the active workspace with click-to-focus and scrolling column centering.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "WorkspaceTaskbar.qml"
+  },
+  "barWidget": {
+    "displayName": "Workspace Taskbar",
+    "description": "Every window on the active workspace as a clickable pill; click to focus and center.",
+    "category": "Window Management",
+    "allowMultiple": false,
+    "defaultSection": "left"
+  }
+}
